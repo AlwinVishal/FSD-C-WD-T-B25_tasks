@@ -1,0 +1,183 @@
+.body{
+    padding-left: 100px;
+}
+
+.color1{
+    background-color: #fefcfb;
+}
+
+.color2{
+    background-color: #f7f8fc;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+nav{
+    display: flex;
+    gap: 10px;
+    font-size: 1.2rem;
+}
+
+#loginBtn{
+    background-color: white;
+    color: #fa7436;
+    border: none;
+}
+
+#signupBtn{
+    width: 85px;
+    height: 40px;
+    background-color: #fa7436;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+article{
+    font-size: 2.5rem;
+}
+
+span{
+    color: #fa7436;
+}
+
+p{
+    font-size: 1.3rem;
+}
+
+#discoverBtn{
+    background-color: white;
+    color: #fa7436;
+    width: 140px;
+    height: 50px;
+    padding: 15px;
+    border: 2px solid;
+    border-radius: 2px;
+}
+
+#page1Footer{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin: 50px 120px;
+    background-color: white;
+}
+
+#exploreBtn{
+    width: 120px;
+    height: 40px;
+    background-color: #fa7436;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+.p1fPara{
+    font-size: 1rem;
+}
+
+#contentPage2{
+    padding: 100px 0px;
+    text-align: center;
+}
+
+.pg2Box{
+    background-color: white;
+}
+
+#images1{
+    display: flex;
+}
+
+.pg2Box img {
+    width: 100%;
+    height: auto;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+}
+
+.cards {
+    background-color: white;
+    width: 23%;  
+    padding: 10px;
+    box-sizing: border-box; 
+}
+
+.cards img {
+    width: 100%; 
+    height: auto; 
+}
+
+#contentPage2 {
+    padding: 100px 0;
+    text-align: center;
+}
+
+.pg2Box {
+    background-color: white;
+    width: 18%; 
+    padding: 15px; 
+    box-sizing: border-box;
+    border: 2px solid #fa7436;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    margin: 10px;
+}
+
+.pg2Box img {
+    width: 30%;  
+    height: auto; 
+    margin: 0 auto; 
+    display: block;
+}
+
+#images1 {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+#pg2Content{
+    margin-bottom: 100px;
+}
+
+#aboutUs{
+    padding: 100px 0px;
+}
+
+#subs{
+    margin: 100px 0px;
+    background-color: #fa7436;
+    text-align: center;
+    padding: 50px;
+    border-radius: 10px;
+}
+
+.foot{
+    display: flex;
+    justify-content: space-around;
+}
+
+footer{
+    margin-left: 10%;
+}
+
+#last{
+    margin-left: 15px;
+}
