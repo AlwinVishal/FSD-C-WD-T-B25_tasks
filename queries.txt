@@ -1,0 +1,181 @@
+Creating database
+
+CREATE DATABASE ecommerce;
+USE ecommerce;
+
+
+//Creating tables
+
+CREATE TABLE customers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    email VARCHAR(50),
+    address VARCHAR(100)   
+);
+
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10,2),
+    FOREIGN KEY (customer_id) REFERENCES customers(id)   
+);
+
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    price DECIMAL(8,2),
+    description TEXT   
+);
+
+
+//Inserting sample values
+
+INSERT INTO customers (name, email, address) VALUES 
+(
+    'John Smith', 'john@gail.com', '123 Chennai India'
+),
+(
+    'Jackie Mon', 'mon@gail.com', '45 Bengaluru India'
+),
+(
+    'Richard Dutt', 'rdutt@gail.com', '789 Kolkata India'
+);
+
+INSERT INTO orders (customer_id, order_date, total_amount) VALUES
+(
+    1, '2025-07-16', 100000.00
+),
+(
+    2, '2025-07-05', 50000.00
+),
+(
+    3, '2025-06-10', 80000.00
+);
+
+INSERT INTO products (name, price, description) VALUES 
+(
+    'Mobile', 30000.00, 'Gaming phone with higher specs'
+),
+(
+    'Laptop', 50000.00, 'Productive laptop with touch screen'
+),
+(
+    'Headphones', 10000.00, 'Dual drivers with 50db ANC'
+),
+(
+    'Chrome book', 20000.00, 'Best for online class for students'
+);
+
+
+
+1) Retrieve all customers who have placed an order in the last 30 days.
+
+----------------------------------------------------------------------------------------------------------------------------
+SELECT * FROM customers c JOIN orders o ON c.id = o.customer_id WHERE o.order_date >= current_date() - interval 30 day;
+----------------------------------------------------------------------------------------------------------------------------
+
+//Selecting all the customers from the "customers" table based on the "order_date" from the "order" table by combining 
+both the tables using "join". The last 30 days orders is filtered by getting the current date and by subtracting the past 30 days.
+
+
+2) Get the total amount of all orders placed by each customer.
+
+---------------------------------------------------------------------------------------------------------------------------------------------
+SELECT c.id, c.name, SUM(o.total_amount) AS total_amount_spent FROM customers c JOIN orders o ON c.id = o.customer_id GROUP BY c.id, c.name;
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+//Selecting id, name from "customers" table and total_amount from "orders" table by combining both the tables using "join". Then SUM the 
+total_amount and keep it as total_amount_spent grouping by customer id and name.
+
+
+3) Update the price of Product C to 45.00.
+
+-------------------------------------------------------------
+UPDATE products SET price = 45.00 WHERE name = 'Product C';
+-------------------------------------------------------------
+
+//Updating value of the price of the Product where name is 'Product C'.
+
+
+4) Add a new column discount to the products table.
+
+-----------------------------------------------------------------------
+ALTER TABLE products ADD COLUMN discount DECIMAL(4,2) DEFAULT (0.0);
+-----------------------------------------------------------------------
+
+//To add a column "discount" use ALTER keyword and set the default value as 0.
+
+
+5) Retrieve the top 3 products with the highest price.
+
+-------------------------------------------------------
+SELECT * FROM products ORDER BY price DESC LIMIT 3;
+-------------------------------------------------------
+
+//Selecting all the product details with the highest price which can be obtained by using ORDER BY and DESC, 
+now the top 3 products which is filtered by limit 3.
+
+
+6) Get the names of customers who have ordered Product A.
+
+------------------------------------------------------------------------------------------------------------------
+SELECT c.name FROM customers c JOIN orders o ON c.id = o.customer_id 
+JOIN ordered_items oi ON o.id = oi.order_id JOIN products p ON p.id = oi.product_id where p.name = "Product A"; 
+------------------------------------------------------------------------------------------------------------------
+
+//To select names of customers
+
+    - first create a table ordered_items where it as its own id, order id from the order table, 
+    product id from the product table along with quantity and price.
+
+    - join all the tables.
+
+    - then filter the customers names who bought the product A using the product name.
+
+
+7) Join the orders and customers tables to retrieve the customer's name and order date for each order.
+
+------------------------------------------------------------------------------------------------------------
+SELECT c.name, o.order_date from customers c JOIN orders o ON c.id = o.customer_id;
+------------------------------------------------------------------------------------------------------------
+
+//Join customers table and orders table using join query on the id fron customers table and customer id from orders table
+to get the customer's name and their order date.
+
+
+8) Retrieve the orders with a total amount greater than 150.00.
+
+------------------------------------------------------------------------------------
+SELECT * from orders where total_amount > 150.00;
+------------------------------------------------------------------------------------
+
+//Selecting or retrieving the order details where the total_amount is greater than 150.
+
+
+9) Normalize the database by creating a separate table for order items and updating the orders table to reference the order_items table.
+
+-------------------------------------------------------------------------------------
+create table order_items (
+	id INT auto_increment primary key,
+	order_id int,
+    product_id int,
+    quantity int,
+    price decimal(8,2),
+    
+    foreign key (order_id) references orders(id),
+    foreign key (product_id) references products(id)
+);
+-------------------------------------------------------------------------------------
+
+//Creating a table order_items where it has the order_id which is the primary key of the orders table and product_id which is the 
+primary key of the products table and quantity and price of the products ordered.
+
+
+10) Retrieve the average total of all orders.
+
+----------------------------------------------------------------
+SELECT AVG(total_amount) AS avg_total from orders;
+----------------------------------------------------------------
+
+//Selecting the total amount from orders and applying average for it.
