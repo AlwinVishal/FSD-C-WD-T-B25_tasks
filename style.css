@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #0e0f26;
+  color: white;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: min(600px, 90%);
+  margin-bottom: 20px;
+}
+
+button {
+  background-color: #3b82f6;
+  padding: 10px 18px;
+  font-size: 16px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #1e60d4;
+}
+
+
+/* Game Grid */
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(4, 100px);
+  gap: 15px;
+}
+
+/* Card Style */
+.card {
+  width: 100px;
+  height: 100px;
+  perspective: 600px;
+  cursor: pointer;
+}
+
+.inner-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.inner-card.flip {
+  transform: rotateY(180deg);
+}
+
+.front, .back {
+  position: absolute;
+  backface-visibility: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.2rem;
+}
+
+/* Hidden side */
+.back {
+  background: #1f2937;
+}
+
+/* Emoji side */
+.front {
+  background: #ffffff;
+  color: black;
+  transform: rotateY(180deg);
+}
+
+/* Responsive Fix */
+@media (max-width: 600px) {
+  .game-board {
+    grid-template-columns: repeat(4, 70px);
+    gap: 10px;
+  }
+
+  .card {
+    width: 70px;
+    height: 70px;
+  }
+
+  .front, .back {
+    font-size: 1.5rem;
+  }
+}
+
+#popup button {
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+#popup button:hover {
+  background-color: #1e60d4;
+}
