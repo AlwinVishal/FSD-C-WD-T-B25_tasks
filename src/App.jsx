@@ -28,13 +28,13 @@ function App() {
     })
   }
 
-  function handleRemove (id) {
+  function handleRemove(id) {
     setCart((prev) => prev.filter(item => item.id !== id));
   }
 
   return (
     <>
-      <Navbar cardCount={cart.length} toggleCart={() => setIsCartOpen(!isCartOpen)} />
+      <Navbar cartCount={cart.length} toggleCart={() => setIsCartOpen(!isCartOpen)} />
 
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6'>
         {products.map((product) => (
@@ -42,7 +42,7 @@ function App() {
         ))}
       </div>
 
-      <CartSidebar cart ={cart} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} handleRemove={handleRemove} />
+      <CartSidebar cart={cart} isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} handleRemove={handleRemove} />
     </>
   );
 }
