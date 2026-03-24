@@ -13,7 +13,7 @@ function Cart() {
     return acc + item.price * item.quantity;
   }, 0);
 
-  const discount = total > 500 ? total * 0.1 : 0;
+  const discount = total * 0.1;
   const finalAmount = total - discount;
 
   return (
