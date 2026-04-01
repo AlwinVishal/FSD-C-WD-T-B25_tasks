@@ -2,7 +2,7 @@ import React from 'react'
 
 function SearchBar({ text, type, onTextChange, onTypeChange, onSearch }) {
     return (
-        <div className="max-w-3xl mx-auto mb-6 flex gap-3">
+        <div className="max-w-3xl mx-auto mb-6 flex flex-col sm:flex-row gap-4">
             <input
                 type="text"
                 placeholder="Search movies..."
@@ -24,7 +24,7 @@ function SearchBar({ text, type, onTextChange, onTypeChange, onSearch }) {
 
             <button
                 onClick={onSearch}
-                className="bg-blue-600 px-5 py-3 rounded-lg hover:bg-blue-700"
+                className="bg-blue-600 px-5 py-3 rounded-lg hover:bg-blue-700 w-1/4 sm:w-auto"
             >
                 Search
             </button>
