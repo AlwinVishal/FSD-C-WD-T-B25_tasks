@@ -38,7 +38,7 @@ function MovieDetailsCard({ movieData, onToggleFavorite, isFavourite }) {
 
                                 <button
                                     onClick={() => navigate('/favorites')}
-                                    className='mb-6 bg-red-800 px-4 py-2 rounded ml-5'
+                                    className='mt-6 bg-red-800 px-4 py-2 rounded ml-5'
                                 >
                                     Go to Favorites
                                 </button>
