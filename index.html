@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Income Expense Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex items-center justify-center">
+
+<div class="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-md space-y-5">
+
+    <h1 class="text-2xl font-bold text-center text-gray-800"> Expense Tracker</h1>
+
+    <input type="text" id="descInput" placeholder="Description"
+        class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+    <div class="flex gap-2">
+        <input type="number" id="inputId" placeholder="Amount"
+            class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+
+        <select id="typeSelect"
+            class="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+            <option value="">Type</option>
+            <option value="income">Income</option>
+            <option value="expense">Expense</option>
+        </select>
+    </div>
+
+    <div class="flex gap-2">
+        <button id="inputButton"
+            class="flex-1 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg">Submit</button>
+
+        <button id="resetButton"
+            class="flex-1 bg-gray-400 hover:bg-gray-500 text-white p-2 rounded-lg">Reset</button>
+    </div>
+
+    <div class="flex justify-center gap-6 text-sm font-medium">
+        <label class="flex items-center gap-1 cursor-pointer">
+            <input type="radio" name="filter" value="all" checked onchange="setFilter(this.value)">
+            All
+        </label>
+        <label class="flex items-center gap-1 cursor-pointer">
+            <input type="radio" name="filter" value="income" onchange="setFilter(this.value)">
+            Income
+        </label>
+        <label class="flex items-center gap-1 cursor-pointer">
+            <input type="radio" name="filter" value="expense" onchange="setFilter(this.value)">
+            Expense
+        </label>
+    </div>
+
+    <div id="summary" class="bg-gray-50 p-3 rounded-lg text-sm space-y-1">
+        <h2 id="income" class="text-green-600 font-semibold"></h2>
+        <h2 id="expense" class="text-red-500 font-semibold"></h2>
+        <h2 id="balance" class="text-blue-600 font-semibold"></h2>
+    </div>
+
+    <div id="listContainer" class="space-y-2 max-h-64 overflow-y-auto"></div>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
