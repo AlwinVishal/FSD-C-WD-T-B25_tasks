@@ -83,6 +83,16 @@ function renderList() {
             filteredArr = arr.filter(item => item.type === selectedFilter);
         }
 
+        if (filteredArr.length === 0) {
+            listContainer.innerHTML = `
+            <p class="text-center text-gray-400 mt-4">
+                No transactions found
+            </p>
+        `;
+            listContainer.style.opacity = "1";
+            return;
+        }
+
         filteredArr.forEach(item => {
             let bgColor = "";
             if (item.type === "income") {
