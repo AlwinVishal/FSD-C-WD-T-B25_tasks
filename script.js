@@ -1,131 +1,171 @@
-const input = document.getElementById('inputId');
-const descInput = document.getElementById('descInput');
-const button = document.getElementById('inputButton');
-const resetButton = document.getElementById('resetButton');
-const typeSelect = document.getElementById('typeSelect');
-const listContainer = document.getElementById('listContainer');
-
 let arr = JSON.parse(localStorage.getItem("transactions")) || [];
-let editIndex = null;
-let currentFilter = "all";
+let editId = null;
 
-function saveToLocal() {
+const saveToLocal = () => {
     localStorage.setItem("transactions", JSON.stringify(arr));
 }
 
-function onSubmit() {
-    const amount = input.value;
-    const type = typeSelect.value;
-    const description = descInput.value;
+const description = document.getElementById("descInput");
+const input = document.getElementById("inputId");
+const typeSelect = document.getElementById("typeSelect");
+const addBtn = document.getElementById("addBtn");
+const listContainer = document.getElementById("listContainer");
+const resetBtn = document.getElementById("resetBtn");
 
-    if (amount === "" || type === "" || description === "") {
-        alert("Please enter all fields");
+const filters = document.querySelectorAll('input[name="filter"]');
+
+filters.forEach(item => {
+    item.addEventListener("change", renderList);
+});
+
+function onSubmit() {
+
+    const desc = description.value.trim();
+    const rawAmount = input.value;
+    const type = typeSelect.value;
+
+    if (rawAmount === "" || desc === "" || type === "") {
+        alert("Please enter all the fields");
         return;
     }
+
+    const amount = Number(rawAmount);
 
     if (amount <= 0) {
-        alert("Please enter valid amount");
+        alert("Enter a valid amount");
         return;
     }
 
-    const entry = {
-        description,
-        amount: Number(amount),
-        type
-    };
-
-    if (editIndex !== null) {
-        arr[editIndex] = entry;
-        editIndex = null;
-        button.innerText = "Submit";
-    } else {
+    if (editId != null) {
+        arr.forEach(item => {
+            if (item.id === editId) {
+                item.desc = desc;
+                item.amount = amount;
+                item.type = type
+            }
+        });
+        editId = null;
+        addBtn.textContent = "Submit";
+    }
+    else {
+        const entry = {
+            id: Date.now(),
+            desc,
+            amount,
+            type
+        }
         arr.push(entry);
     }
 
     saveToLocal();
 
+    description.value = "";
     input.value = "";
-    descInput.value = "";
     typeSelect.value = "";
 
     renderList();
-}
-
-function deleteItem(index) {
-    arr = arr.filter((item, i) => i !== index);
-    saveToLocal();
-    renderList();
-}
-
-function editItem(index) {
-    const item = arr[index];
-    input.value = item.amount;
-    descInput.value = item.description;
-    typeSelect.value = item.type;
-    editIndex = index;
-    button.innerText = "Update";
-}
-
-function setFilter(value) {
-    currentFilter = value;
-    renderList();
+    updateSummary();
 }
 
 function renderList() {
-    let filteredArr = arr;
 
-    if (currentFilter !== "all") {
-        filteredArr = arr.filter(item => item.type === currentFilter);
-    }
+    listContainer.style.opacity = "0";
 
-    const result = filteredArr.map((item) => {
-        const index = arr.indexOf(item);
+    setTimeout(() => {
 
-        return `
-        <div class="flex justify-between items-center bg-gray-100 p-3 rounded-lg shadow-sm">
-            <div>
-                <h1 class="font-semibold text-gray-800">${item.description}</h1>
-                <p class="text-sm text-gray-500">${item.amount} - ${item.type}</p>
-            </div>
-            <div class="flex gap-2">
-                <button onclick="editItem(${index})"
-                    class="bg-yellow-400 hover:bg-yellow-500 px-2 py-1 rounded text-sm">Edit</button>
-                <button onclick="deleteItem(${index})"
-                    class="bg-red-500 hover:bg-red-600 text-white px-2 py-1 rounded text-sm">Delete</button>
-            </div>
-        </div>
-        `;
-    }).join("");
+        listContainer.innerHTML = "";
 
-    listContainer.innerHTML = result;
+        const selectedFilter = document.querySelector('input[name="filter"]:checked').value;
 
+        let filteredArr = arr;
+
+        if (selectedFilter !== "all") {
+            filteredArr = arr.filter(item => item.type === selectedFilter);
+        }
+
+        filteredArr.forEach(item => {
+            let bgColor = "";
+            if (item.type === "income") {
+                bgColor = "bg-green-500";
+            } else {
+                bgColor = "bg-red-500";
+            }
+
+            const div = document.createElement('div');
+            div.className = `flex justify-between items-center ${bgColor} p-3 rounded-lg mb-2 shadow-sm text-white font-semibold transition hover:scale-105 hover:shadow-md`;
+
+            const text = document.createElement("span");
+            text.textContent = `${item.desc} - ₹${item.amount} (${item.type})`;
+
+            const editBtn = document.createElement("button");
+            editBtn.textContent = "Edit";
+            editBtn.onclick = () => editItem(item.id);
+
+            const deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.onclick = () => deleteItem(item.id);
+
+            const btnContainer = document.createElement("div");
+            btnContainer.className = "flex gap-2";
+
+            editBtn.className = "bg-yellow-600 text-white px-2 py-1 rounded hover:bg-yellow-500";
+            deleteBtn.className = "bg-red-800 text-white px-2 py-1 rounded hover:bg-red-900";
+
+            btnContainer.append(editBtn, deleteBtn);
+            div.append(text, btnContainer);
+
+            listContainer.appendChild(div);
+        });
+
+        listContainer.style.opacity = "1";
+
+    }, 200);
+}
+
+function editItem(id) {
+    editId = id;
+    arr.forEach(item => {
+        if (item.id === id) {
+            description.value = item.desc;
+            input.value = item.amount;
+            typeSelect.value = item.type;
+            addBtn.textContent = "Update";
+        }
+    })
+}
+
+function deleteItem(id) {
+    arr = arr.filter(item => item.id !== id);
+    saveToLocal();
+    renderList();
     updateSummary();
 }
 
 function updateSummary() {
-    const income = totalAmount("income");
-    const expense = totalAmount("expense");
+    let income = 0;
+    let expense = 0;
+
+    arr.forEach(item => {
+        if (item.type === "income") {
+            income += item.amount;
+        }
+        else {
+            expense += item.amount;
+        }
+    })
+
     const balance = income - expense;
 
-    document.getElementById("income").innerText = `Total Income: ${income}`;
-    document.getElementById("expense").innerText = `Total Expense: ${expense}`;
-    document.getElementById("balance").innerText = `Balance: ${balance}`;
+    document.getElementById("totalIncome").textContent = `₹ ${income.toLocaleString()}`;
+    document.getElementById("totalExpense").textContent = `₹ ${expense.toLocaleString()}`;
+    document.getElementById("balance").textContent = `₹ ${balance.toLocaleString()}`;
 }
 
-function totalAmount(type) {
-    return arr.reduce((total, item) => {
-        return item.type === type ? total + item.amount : total;
-    }, 0);
-}
-
-resetButton.addEventListener("click", () => {
+function onReset() {
     input.value = "";
-    descInput.value = "";
+    description.value = "";
     typeSelect.value = "";
-    editIndex = null;
-    button.innerText = "Submit";
-});
-
-button.addEventListener("click", onSubmit);
+}
 
 renderList();
+updateSummary();

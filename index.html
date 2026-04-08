@@ -1,67 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Income Expense Calculator</title>
+    <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-gradient-to-br from-gray-100 to-gray-200 min-h-screen flex items-center justify-center">
+<body>
+    <div class="min-h-screen bg-gray-100 flex justify-center items-center">
+        <div class="bg-white p-6 rounded-2xl shadow-md w-full max-w-md">
+            <div>
+                <input type="text" id="descInput" placeholder="Description"
+                    class="w-full border border-gray-300 rounded-lg p-2 mb-3 focus: outline-none focus:ring-2 focus:ring-blue-400">
 
-<div class="bg-white p-6 rounded-2xl shadow-2xl w-full max-w-md space-y-5">
+                <div class="flex gap-2 mb-3">
+                    <input type="number" id="inputId" placeholder="Amount"
+                        class="w-1/2 border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400">
 
-    <h1 class="text-2xl font-bold text-center text-gray-800"> Expense Tracker</h1>
+                    <select id="typeSelect"
+                        class="w-1/2 border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus-ring-400">
+                        <option value="">Type</option>
+                        <option value="income">Income</option>
+                        <option value="expense">Expense</option>
+                    </select>
+                </div>
 
-    <input type="text" id="descInput" placeholder="Description"
-        class="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                <div class="flex gap-3 mt-5">
+                    <button id="addBtn" onclick="onSubmit()"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-lg w-full hover:bg-blue-600 transition">
+                        Submit
+                    </button>
 
-    <div class="flex gap-2">
-        <input type="number" id="inputId" placeholder="Amount"
-            class="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <button id="resetBtn" onclick="onReset()"
+                        class="bg-gray-500 text-white px-4 py-2 rounded-lg w-full hover:bg-gray-600 transition">
+                        Reset
+                    </button>
+                </div>
+            </div>
 
-        <select id="typeSelect"
-            class="p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400">
-            <option value="">Type</option>
-            <option value="income">Income</option>
-            <option value="expense">Expense</option>
-        </select>
+            <div id="summary" class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
+                <div class="bg-green-100 p-3 rounded-lg text-center shadow-sm">
+                    <p class="text-md font-semibold text-gray-600">Income</p>
+                    <h2 id="totalIncome" class="text-lg font-semibold text-green-700"></h2>
+                </div>
+                <div class="bg-red-100 p-3 rounded-lg text-center shadow-sm">
+                    <p class="text-md font-semibold text-gray-600">Expense</p>
+                    <h2 id="totalExpense" class="text-lg font-semibold text-red-700"></h2>
+                </div>
+                <div class="bg-blue-100 p-3 rounded-lg text-center shadow-sm">
+                    <p class="text-md font-semibold text-gray-600">Balance</p>
+                    <h2 id="balance" class="text-lg font-semibold text-blue-700"></h2>
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-6 my-4">
+                <label class="flex items-center gap-2 font-semibold text-gray-800 cursor-pointer">
+                    <input type="radio" name="filter" checked value="all" class="accent-blue-500">
+                    All
+                </label>
+                <label class="flex items-center gap-2 font-semibold text-gray-800 cursor-pointer">
+                    <input type="radio" name="filter" value="income" class="accent-blue-500">
+                    Income
+                </label>
+                <label class="flex items-center gap-2 font-semibold text-gray-800 cursor-pointer">
+                    <input type="radio" name="filter" value="expense" class="accent-blue-500">
+                    Expense
+                </label>
+            </div>
+
+            <div id="listContainer" class="transition-opacity duration-200">
+
+            </div>
+
+        </div>
+
     </div>
 
-    <div class="flex gap-2">
-        <button id="inputButton"
-            class="flex-1 bg-blue-500 hover:bg-blue-600 text-white p-2 rounded-lg">Submit</button>
-
-        <button id="resetButton"
-            class="flex-1 bg-gray-400 hover:bg-gray-500 text-white p-2 rounded-lg">Reset</button>
-    </div>
-
-    <div class="flex justify-center gap-6 text-sm font-medium">
-        <label class="flex items-center gap-1 cursor-pointer">
-            <input type="radio" name="filter" value="all" checked onchange="setFilter(this.value)">
-            All
-        </label>
-        <label class="flex items-center gap-1 cursor-pointer">
-            <input type="radio" name="filter" value="income" onchange="setFilter(this.value)">
-            Income
-        </label>
-        <label class="flex items-center gap-1 cursor-pointer">
-            <input type="radio" name="filter" value="expense" onchange="setFilter(this.value)">
-            Expense
-        </label>
-    </div>
-
-    <div id="summary" class="bg-gray-50 p-3 rounded-lg text-sm space-y-1">
-        <h2 id="income" class="text-green-600 font-semibold"></h2>
-        <h2 id="expense" class="text-red-500 font-semibold"></h2>
-        <h2 id="balance" class="text-blue-600 font-semibold"></h2>
-    </div>
-
-    <div id="listContainer" class="space-y-2 max-h-64 overflow-y-auto"></div>
-
-</div>
-
-<script src="script.js"></script>
-
+    <script src="./script.js"></script>
 </body>
+
 </html>
